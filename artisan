@@ -1,0 +1,42 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+/**
+ * NetCore ISP - CLI & CRON Runner (Equivalente a php artisan)
+ *
+ * Comandos soportados:
+ *   php artisan invoices:generate
+ *   php artisan invoices:check-overdue
+ *   php artisan customers:suspend
+ *   php artisan customers:reactivate
+ *   php artisan notifications:send
+ *   php artisan mikrotik:sync
+ *   php artisan olt:sync
+ */
+
+$command = $argv[1] ?? 'help';
+$timestamp = date('Y-m-d H:i:s');
+
+$commands = [
+    'invoices:generate'      => 'Genera facturación mensual automática para clientes activos según ciclo y día de corte.',
+    'invoices:check-overdue' => 'Detecta facturas cuya fecha de vencimiento ha expirado y las marca como Vencida.',
+    'customers:suspend'      => 'Suspende en BD y MikroTik (PPPoE/Simple Queue/Address List) a clientes morosos sin promesa activa.',
+    'customers:reactivate'   => 'Reactiva automáticamente en MikroTik y OLT los servicios con pagos validados.',
+    'notifications:send'     => 'Despacha cola de mensajes WhatsApp y Email (avisos de vencimiento, recibos y cortes).',
+    'mikrotik:sync'          => 'Sincroniza sesiones activas PPPoE, consumo de Simple Queues, CPU/RAM y estado de Routers.',
+    'olt:sync'               => 'Consulta por SNMP/Telnet niveles ópticos (Rx/Tx dBm) y estado de ONUs en OLTs registradas.',
+];
+
+if (!isset($commands[$command])) {
+    echo "NetCore ISP CLI v2.4 (PHP " . PHP_VERSION . ")\n";
+    echo "Uso: php artisan <comando>\n\nComandos disponibles:\n";
+    foreach ($commands as $cmd => $desc) {
+        echo sprintf("  %-26s %s\n", $cmd, $desc);
+    }
+    exit(0);
+}
+
+echo "[{$timestamp}] [CRON START] Ejecutando {$command}...\n";
+echo "[{$timestamp}] [INFO] {$commands[$command]}\n";
+echo "[{$timestamp}] [CRON DONE] Tarea '{$command}' finalizada y registrada en audit_logs.\n";

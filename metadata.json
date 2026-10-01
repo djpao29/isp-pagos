@@ -1,0 +1,6 @@
+{
+  "name": "NetCore ISP — Sistema Integral de Gestión WISP & FTTH",
+  "description": "Plataforma empresarial multi-tenant para proveedores de internet (ISP): gestión de clientes, MikroTik RouterOS (PPPoE, Simple Queue, PCQ, Hotspot), OLT/FTTH, facturación, cortes automáticos, WhatsApp, OCR de comprobantes, mapa GPS Leaflet y asistente IA.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
